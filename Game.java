@@ -8,11 +8,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
-
-    /**
-     *
-     */
-
     private static final long serialVersionUID = 1L;
     protected String direction;
     public int[][] bodySegment = new int[][]{{100, 100, 10, 10},{110, 100, 10, 10}};
@@ -52,16 +47,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         // take tail attach it to head
         System.out.println(Arrays.toString(bodySegment[0]));
         // step the array
-        bodySegment[0][0] = bodySegment[length-1][0] + bodySegment[length-1][2];
+      
         // swap element 1 and 2
-        int[] tmpArray = bodySegment[0];
-        bodySegment[0] = bodySegment[length-1];
-        bodySegment[length-1] = tmpArray;
-        System.out.println("head " + Arrays.toString(bodySegment[length-1]));
-        System.out.println("tail " + Arrays.toString(bodySegment[0]));
         repaint();
      }
-
     }
 
     @Override
