@@ -9,13 +9,20 @@ import java.awt.Graphics;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
     private static final long serialVersionUID = 1L;
-    protected String direction;
     public int BOARD_WIDTH;
     public int BOARD_HEIGHT;
     // field to keep track of snake head hitting the border of the game board
     private boolean isOnBorder = false;
     
     Snake snake = new Snake();
+
+    // default snake direction vector moves to the right
+    public int[] RIGHT = new int[]{snake.getOvalHeight(), 0};
+    public int[] LEFT = new int[]{-snake.getOvalHeight(), 0};
+    public int[] UP = new int[]{0,-snake.getOvalHeight()};
+    public int[] DOWN = new int[]{0,snake.getOvalHeight()};
+    public int[] direction = new int[]{};
+
     public Game(){
 
         setFocusable(true);
@@ -50,14 +57,26 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         //System.out.println("inside keyPressed event ");
-     if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-        if(snake.getHead()[0] == BOARD_WIDTH){
-            isOnBorder = true;
-        }    
-        snake.slither(isOnBorder);
+     if(snake.getHead()[0] == BOARD_WIDTH){
+        isOnBorder = true;
+     }
+    switch(e.getKeyCode()){
+        case KeyEvent.VK_RIGHT:
+            direction = RIGHT;
+            break;
+        case KeyEvent.VK_LEFT:
+            direction = LEFT;
+            break;
+        case KeyEvent.VK_UP:
+            direction = UP;
+            break;
+        case KeyEvent.VK_DOWN:
+            direction = DOWN;
+            break;
+        }
+        snake.slither(isOnBorder, direction);
         isOnBorder = false;
         repaint();
-     }
     }
 
     @Override
