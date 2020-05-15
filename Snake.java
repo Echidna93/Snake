@@ -27,6 +27,13 @@ public class Snake {
     public int getLength(){
         return this.length;
     }
+    // method to return the head of the ArrayList representing Snake body
+    public int[] getHead(){
+        int xComponent = getBodyXComponent(length-1);
+        int yComponent = getBodyYComponent(length-1);
+        int[] head = new int[]{xComponent, yComponent};
+        return head;
+    }
 
     public int getBodyXComponent(int bodySegment){
         return body.get(bodySegment)[0];
@@ -36,13 +43,21 @@ public class Snake {
         return body.get(bodySegment)[1];
     }
 
-    public void slither(){
-        // step the array
-        // swap element 1 and 2
-        int[] tmpBody = new int[]{body.get(0)[0], body.get(0)[1]}; 
-        tmpBody[0] += 3*OVAL_WIDTH;
+    public void slither(boolean isOnBorder){
+        
+        // grab tail
+        int[] tail = new int[]{body.get(0)[0], body.get(0)[1]};
+        
+        // logic to handle the case where the snake head is on the border of the map
+        // TODO: make this conditional on the direction as well
+        if(isOnBorder){
+            tail[0] = 0;    
+        }
+        else{
+            tail[0] = getHead()[0] + OVAL_WIDTH;
+        }
         body.remove(0);
-        body.add(tmpBody);
+        body.add(tail);
     }
 
 }

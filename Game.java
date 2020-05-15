@@ -10,12 +10,20 @@ import java.awt.Graphics;
 public class Game extends JPanel implements ActionListener, KeyListener {
     private static final long serialVersionUID = 1L;
     protected String direction;
+    public int BOARD_WIDTH;
+    public int BOARD_HEIGHT;
+    // field to keep track of snake head hitting the border of the game board
+    private boolean isOnBorder = false;
+    
     Snake snake = new Snake();
     public Game(){
+
         setFocusable(true);
-        addKeyListener(this);    
-        //Image h = this.head.getScaledInstance(10, 10, 1);
-        setSize(400,400);
+        // TODO: check where keyListener actually needs to go
+        addKeyListener(this);
+        this.BOARD_WIDTH = 400;
+        this.BOARD_HEIGHT = 400;    
+        setSize(BOARD_WIDTH, BOARD_HEIGHT);
         setBackground(Color.WHITE);
     }
 
@@ -43,8 +51,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         //System.out.println("inside keyPressed event ");
      if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-        System.out.println("here");
-        snake.slither();
+        if(snake.getHead()[0] == BOARD_WIDTH){
+            isOnBorder = true;
+        }    
+        snake.slither(isOnBorder);
+        isOnBorder = false;
         repaint();
      }
     }
