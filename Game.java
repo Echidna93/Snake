@@ -10,7 +10,7 @@ import java.awt.Graphics;
 public class Game extends JPanel implements ActionListener, KeyListener {
     private static final long serialVersionUID = 1L;
     protected String direction;
-    public int[][] bodySegment = new int[][]{{100, 100, 10, 10},{110, 100, 10, 10}};
+    Snake snake = new Snake();
     public Game(){
         setFocusable(true);
         addKeyListener(this);    
@@ -24,13 +24,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         //g.clearRect(this.bodysegment[], y, width, height);
         // TODO Auto-generated method stub
         super.paintComponent(g);
-        for(int i = 0; i < bodySegment.length; i++){
-        g.fillOval(bodySegment[i][0], bodySegment[i][1], bodySegment[i][2], bodySegment[i][3]);
+        for(int i = 0; i < snake.getLength(); i++){
+            g.fillOval(snake.getBodyXComponent(i), snake.getBodyYComponent(i), snake.getOvalHeight(), snake.getOvalWidth());
+            //System.out.println("this is body segment : " + snake.getBodySegment(i));
         }
         g.setColor(Color.BLUE);
         //super.paintComponent(g);
         //g.dispose();
-        
     }
 
     @Override
@@ -43,12 +43,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         //System.out.println("inside keyPressed event ");
      if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-        int length = this.bodySegment.length;
-        // take tail attach it to head
-        System.out.println(Arrays.toString(bodySegment[0]));
-        // step the array
-      
-        // swap element 1 and 2
+        System.out.println("here");
+        snake.slither();
         repaint();
      }
     }

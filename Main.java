@@ -11,5 +11,6 @@ public class Main {
         //Game game = new Game();
         frame.setContentPane(game);
         game.setFocusable(true);
+        frame.addKeyListener(game);
     }
 }
