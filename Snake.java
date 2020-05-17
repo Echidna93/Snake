@@ -3,16 +3,20 @@
 import java.util.ArrayList;
 
 public class Snake {
-
     // stores length of snake
     
     public static int OVAL_WIDTH = 10;
     public static int OVAL_HEIGHT = 10;
 
+    public static String EMPTY = "";
+
     public int x;
     public int y;
     // arrayList holds the body elements of the snake
     public ArrayList<int[]> body = new ArrayList<>();
+
+    public int[] directionVector = new int[]{};
+
     public Snake(){
         // add some initial body elements
         body.add(new int[]{100,100});
@@ -44,16 +48,30 @@ public class Snake {
         return body.get(bodySegment)[1];
     }
 
-    public void slither(boolean isOnBorder, int[] direction){
+    public void slither(String isWhichOnBorder, int[] direction){
         
         // grab tail
         int[] tail = new int[]{body.get(0)[0], body.get(0)[1]};
-        
         // logic to handle the case where the snake head is on the border of the map
         // TODO: make this conditional on the direction as well
-        if(isOnBorder){
-            tail[0] = 0;    
-            
+        if(!isWhichOnBorder.equals(EMPTY)){
+            System.out.println("hitting the isEmpty() statement");
+            switch(isWhichOnBorder){
+                case "TOP":
+                    tail[1] = 0;
+                    break;
+                case "BOTTOM":
+                    tail[1] = 400;
+                    break;
+                case "LEFT":
+                    tail[0] = 400;
+                    break;
+                case "RIGHT":
+                    tail[0] = 0;
+                    break;
+                default:
+                    break;
+            }
         }else{
             tail[0] = getHead()[0] + direction[0];
             tail[1] = getHead()[1] + direction[1];

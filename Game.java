@@ -12,15 +12,15 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public int BOARD_WIDTH;
     public int BOARD_HEIGHT;
     // field to keep track of snake head hitting the border of the game board
-    private boolean isOnBorder = false;
-    
+    public String isOnWhichBorder = "";
     Snake snake = new Snake();
 
-    // default snake direction vector moves to the right
     public int[] RIGHT = new int[]{snake.getOvalHeight(), 0};
     public int[] LEFT = new int[]{-snake.getOvalHeight(), 0};
     public int[] UP = new int[]{0,-snake.getOvalHeight()};
     public int[] DOWN = new int[]{0,snake.getOvalHeight()};
+
+    // default snake direction vector moves to the right
     public int[] direction = new int[]{};
 
     public Game(){
@@ -47,6 +47,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         //super.paintComponent(g);
         //g.dispose();
     }
+    /*
+     * @param isOnWhichBorder the isOnWhichBorder to set
+     */
+    public void setIsOnWhichBorder(String isOnWhichBorder) {
+        this.isOnWhichBorder = isOnWhichBorder;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -57,8 +63,17 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         //System.out.println("inside keyPressed event ");
-     if(snake.getHead()[0] == BOARD_WIDTH){
-        isOnBorder = true;
+     if(snake.getHead()[0] == 0 && !(snake.getBodyXComponent(1) == 400)){
+        isOnWhichBorder = "LEFT";
+     }
+     else if((snake.getHead()[0] == BOARD_WIDTH) && !(snake.getBodyXComponent(1) == 0)){
+        isOnWhichBorder = "RIGHT";
+     }
+     else if((snake.getHead()[1] == 0) && !(snake.getBodyYComponent(1) == 400)){
+        isOnWhichBorder = "BOTTOM";
+     }
+     else if((snake.getHead()[1] == BOARD_HEIGHT) && !(snake.getBodyYComponent(1) == 0)){
+        isOnWhichBorder = "TOP";
      }
     switch(e.getKeyCode()){
         case KeyEvent.VK_RIGHT:
@@ -74,8 +89,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             direction = DOWN;
             break;
         }
-        snake.slither(isOnBorder, direction);
-        isOnBorder = false;
+        System.out.println(isOnWhichBorder);
+        snake.slither(isOnWhichBorder, direction);
+        this.setIsOnWhichBorder("");
+        System.out.println(isOnWhichBorder);
         repaint();
     }
 
