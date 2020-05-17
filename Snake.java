@@ -48,12 +48,17 @@ public class Snake {
         return body.get(bodySegment)[1];
     }
 
+    public void grow(){
+        body.add(new int[]{this.getHead()[0] + directionVector[0], this.getHead()[1] + this.directionVector[1]});
+    }
+
     public void slither(String isWhichOnBorder, int[] direction){
         
         // grab tail
         int[] tail = new int[]{body.get(0)[0], body.get(0)[1]};
         // logic to handle the case where the snake head is on the border of the map
         // TODO: make this conditional on the direction as well
+        this.directionVector = direction;
         if(!isWhichOnBorder.equals(EMPTY)){
             System.out.println("hitting the isEmpty() statement");
             switch(isWhichOnBorder){

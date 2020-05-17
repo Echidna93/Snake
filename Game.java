@@ -9,15 +9,20 @@ import java.awt.Graphics;
 import java.util.Random;
 
 public class Game extends JPanel implements ActionListener, KeyListener {
+    
     private static final long serialVersionUID = 1L;
+    
     public int BOARD_WIDTH = 400;
     public int BOARD_HEIGHT = 400;
     // field to keep track of snake head hitting the border of the game board
     public String isOnWhichBorder = "";
-    Snake snake = new Snake();
+    
     int randX = (int)(Math.random() * ((BOARD_WIDTH) + 1));
     int randY = (int)(Math.random() * ((BOARD_HEIGHT) + 1));
+    
     Apple apple = new Apple(randX, randY, 20, 20);
+    Snake snake = new Snake();
+
     public int[] RIGHT = new int[]{snake.getOvalHeight(), 0};
     public int[] LEFT = new int[]{-snake.getOvalHeight(), 0};
     public int[] UP = new int[]{0,-snake.getOvalHeight()};
@@ -29,26 +34,28 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public Game(){
 
         setFocusable(true);
-        // TODO: check where keyListener actually needs to go
+        // TODO: check where keyListener actually needs to g
         addKeyListener(this);    
         setSize(BOARD_WIDTH, BOARD_HEIGHT);
         setBackground(Color.WHITE);
     }
 
     @Override
-    public void paintComponent(final Graphics g) {
-        //g.clearRect(this.bodysegment[], y, width, height);
-        // TODO Auto-generated method stub
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        if(apple.getIsEaten()){ 
+            apple.setX((int)(Math.random() * ((BOARD_WIDTH) + 1)));
+            apple.setY((int)(Math.random() * ((BOARD_HEIGHT) + 1)));
+            apple.setIsEaten(false);
+            snake.grow();
+        }
+        System.out.println(apple.getIsEaten());
         g.setColor(Color.GREEN);
         for(int i = 0; i < snake.getLength(); i++){
             g.fillOval(snake.getBodyXComponent(i), snake.getBodyYComponent(i), snake.getOvalHeight(), snake.getOvalWidth());
-            //System.out.println("this is body segment : " + snake.getBodySegment(i));
         }
         g.setColor(Color.RED);
         g.fillOval(apple.getX(), apple.getY(), apple.getWidth(), apple.getHeight());
-        //super.paintComponent(g);
-        //g.dispose();
     }
     /*
      * @param isOnWhichBorder the isOnWhichBorder to set
@@ -65,14 +72,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
     // method to check if snake and apple are occupying the same point in the game board
     public boolean isCollision(Apple apple, Snake snake){
-        //System.out.println("Snake position : " + Arrays.toString(snake.getHead()));
-        //System.out.println("Apple position : " + "(" + apple.getX() + apple.getY() + ")");
-        //(snake.getHead()[0] <= (apple.getX() + apple.getWidth()))) && (snake.getHead()[1] >= Math.abs(apple.getX() - apple.getWidth()) && (snake.getHead()[1] <= (apple.getY() - apple.getHeight())))
-        boolean isCollision = false;
         if(((snake.getHead()[0] >= Math.abs(apple.getX() - apple.getWidth())) && (snake.getHead()[0] <= (apple.getX() + apple.getWidth()))) && ((snake.getHead()[1] >= Math.abs(apple.getY() - apple.getHeight())) && (snake.getHead()[1] <= (apple.getY() + apple.getHeight())))){
-            isCollision = true;
+            return true;
         }
-        return isCollision;
+        return false;
     }
  
     @Override
@@ -106,10 +109,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
         snake.slither(isOnWhichBorder, direction);
         if(isCollision(apple, snake)){
-            System.out.println("snake and apple have collided");
+            apple.setIsEaten(true);
         }
         this.setIsOnWhichBorder("");
         repaint();
+        
     }
 
     @Override
