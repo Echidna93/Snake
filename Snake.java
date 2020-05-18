@@ -1,6 +1,8 @@
+
 // To store the snake class
 // Goal of snake class: store direction, location of body parts
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Snake {
     // stores length of snake
@@ -40,6 +42,10 @@ public class Snake {
         return head;
     }
 
+    public int[] getSecondComponent(){
+        return body.get(body.size()-2);
+    }
+
     public int getBodyXComponent(int bodySegment){
         return body.get(bodySegment)[0];
     }
@@ -50,7 +56,11 @@ public class Snake {
 
     public void grow(){
         body.add(new int[]{this.getHead()[0] + directionVector[0], this.getHead()[1] + this.directionVector[1]});
-    }
+        System.out.println("(\n");
+        for(int[] part : body){
+                System.out.println("( " + part[0] + "," + part[1] + ")");
+            }
+        }
 
     public void slither(String isWhichOnBorder, int[] direction){
         
@@ -80,9 +90,21 @@ public class Snake {
         }else{
             tail[0] = getHead()[0] + direction[0];
             tail[1] = getHead()[1] + direction[1];
+            System.out.println("this is head of array: " + "( " + getHead()[0] + "," + getHead()[1] + ")");
         }
+
         body.remove(0);
+        
+        System.out.println("After removing tail : " );
+        for(int[] part : body){
+            System.out.println("( " + part[0] + "," + part[1] + ")");
+        }
         body.add(tail);
+        
+        System.out.println("after adding new head: ");
+        for(int[] part : body){
+            System.out.println("( " + part[0] + "," + part[1] + ")");
+        }
     }
 
 }

@@ -49,7 +49,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             apple.setIsEaten(false);
             snake.grow();
         }
-        System.out.println(apple.getIsEaten());
         g.setColor(Color.GREEN);
         for(int i = 0; i < snake.getLength(); i++){
             g.fillOval(snake.getBodyXComponent(i), snake.getBodyYComponent(i), snake.getOvalHeight(), snake.getOvalWidth());
@@ -79,18 +78,18 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
  
     @Override
-    public void keyPressed(final KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         //System.out.println("inside keyPressed event ");
-     if(snake.getHead()[0] == 0 && !(snake.getBodyXComponent(1) == 400)){
+     if(snake.getHead()[0] == 0 && !(snake.getSecondComponent()[0] == 400)){
         isOnWhichBorder = "LEFT";
      }
-     else if((snake.getHead()[0] == BOARD_WIDTH) && !(snake.getBodyXComponent(1) == 0)){
+     else if((snake.getHead()[0] == BOARD_WIDTH) && !(snake.getSecondComponent()[0] == 0)){
         isOnWhichBorder = "RIGHT";
      }
-     else if((snake.getHead()[1] == 0) && !(snake.getBodyYComponent(1) == 400)){
+     else if((snake.getHead()[1] == 0) && !(snake.getSecondComponent()[1] == 400)){
         isOnWhichBorder = "BOTTOM";
      }
-     else if((snake.getHead()[1] == BOARD_HEIGHT) && !(snake.getBodyYComponent(1) == 0)){
+     else if((snake.getHead()[1] == BOARD_HEIGHT) && !(snake.getSecondComponent()[1] == 0)){
         isOnWhichBorder = "TOP";
      }
     switch(e.getKeyCode()){
