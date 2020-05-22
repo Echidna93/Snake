@@ -28,8 +28,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     public int[] UP = new int[]{0,-snake.getOvalHeight()};
     public int[] DOWN = new int[]{0,snake.getOvalHeight()};
 
+    public boolean isAlive = true;
+
     // default snake direction vector moves to the right
-    public int[] direction = new int[]{};
+    public int[] direction = RIGHT;
 
     public Game(){
 
@@ -79,6 +81,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     /*
      Method to determine whether or not the snake head's x and y component are occupying the same coordinate as a body part 
     */
+    // TODO: change isAlive variable to isGameOver
     public boolean isSnakeEatingItself(Snake snake){ 
         // grab head of the snake
         int[] head = snake.getHead();
@@ -86,26 +89,16 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         for(int i = 0; i < snake.getLength() - 1; i++){
             // check if head x coord and head y coord equals body x coord and head y coord equals body y coord
             if((head[0] == snake.getBodyXComponent(i)) && (head[1] == snake.getBodyYComponent(i))){
+                isAlive = false;
                 return true;
             }
         }
+        isAlive = true;
         return false;
     }
     // TODO: remove logic from keyPressed event, this method should only set the flags and do nothing else
     @Override
     public void keyPressed(KeyEvent e) {
-     if(snake.getHead()[0] == 0 && !(snake.getSecondComponent()[0] == 400)){
-        isOnWhichBorder = "LEFT";
-     }
-     else if((snake.getHead()[0] == BOARD_WIDTH) && !(snake.getSecondComponent()[0] == 0)){
-        isOnWhichBorder = "RIGHT";
-     }
-     else if((snake.getHead()[1] == 0) && !(snake.getSecondComponent()[1] == 400)){
-        isOnWhichBorder = "BOTTOM";
-     }
-     else if((snake.getHead()[1] == BOARD_HEIGHT) && !(snake.getSecondComponent()[1] == 0)){
-        isOnWhichBorder = "TOP";
-     }
     switch(e.getKeyCode()){
         case KeyEvent.VK_RIGHT:
             direction = RIGHT;
@@ -120,13 +113,28 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             direction = DOWN;
             break;
         }
-        snake.slither(isOnWhichBorder, direction);
+    }
+
+    public void play(){
+        if(snake.getHead()[0] == 0 && !(snake.getSecondComponent()[0] == 400)){
+            isOnWhichBorder = "LEFT";
+         }
+         if((snake.getHead()[0] == BOARD_WIDTH) && !(snake.getSecondComponent()[0] == 0)){
+            isOnWhichBorder = "RIGHT";
+         }
+         if((snake.getHead()[1] == 0) && !(snake.getSecondComponent()[1] == 400)){
+            isOnWhichBorder = "BOTTOM";
+         }
+         if((snake.getHead()[1] == BOARD_HEIGHT) && !(snake.getSecondComponent()[1] == 0)){
+            isOnWhichBorder = "TOP";
+         }
         if(isCollision(apple, snake)){
             apple.setIsEaten(true);
         }
         if(isSnakeEatingItself(snake)){
             System.out.println("eating itself");
         }
+        snake.slither(isOnWhichBorder, direction);
         this.setIsOnWhichBorder("");
         repaint();
     }

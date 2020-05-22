@@ -1,7 +1,8 @@
 import javax.swing.JFrame;
+import sun.security.x509.IssuerAlternativeNameExtension;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
         
         JFrame frame = new JFrame();
         Game game = new Game();
@@ -12,6 +13,9 @@ public class Main {
         frame.setContentPane(game);
         game.setFocusable(true);
         frame.addKeyListener(game);
-    
+        while(game.isAlive){
+            game.play();
+            Thread.sleep(100);
+        }
     }
 }
