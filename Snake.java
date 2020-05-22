@@ -61,9 +61,10 @@ public class Snake {
                 System.out.println("( " + part[0] + "," + part[1] + ")");
             }
         }
+    
 
-    public void slither(String isWhichOnBorder, int[] direction){
-        
+    
+    public void slither(String isWhichOnBorder, int[] direction){    
         // grab tail
         int[] tail = new int[]{body.get(0)[0], body.get(0)[1]};
         // logic to handle the case where the snake head is on the border of the map
@@ -94,13 +95,10 @@ public class Snake {
         }
 
         body.remove(0);
-        
-        System.out.println("After removing tail : " );
         for(int[] part : body){
             System.out.println("( " + part[0] + "," + part[1] + ")");
         }
         body.add(tail);
-        
         System.out.println("after adding new head: ");
         for(int[] part : body){
             System.out.println("( " + part[0] + "," + part[1] + ")");

@@ -76,10 +76,24 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         }
         return false;
     }
- 
+    /*
+     Method to determine whether or not the snake head's x and y component are occupying the same coordinate as a body part 
+    */
+    public boolean isSnakeEatingItself(Snake snake){ 
+        // grab head of the snake
+        int[] head = snake.getHead();
+        // check all body segments except the head
+        for(int i = 0; i < snake.getLength() - 1; i++){
+            // check if head x coord and head y coord equals body x coord and head y coord equals body y coord
+            if((head[0] == snake.getBodyXComponent(i)) && (head[1] == snake.getBodyYComponent(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+    // TODO: remove logic from keyPressed event, this method should only set the flags and do nothing else
     @Override
     public void keyPressed(KeyEvent e) {
-        //System.out.println("inside keyPressed event ");
      if(snake.getHead()[0] == 0 && !(snake.getSecondComponent()[0] == 400)){
         isOnWhichBorder = "LEFT";
      }
@@ -110,9 +124,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         if(isCollision(apple, snake)){
             apple.setIsEaten(true);
         }
+        if(isSnakeEatingItself(snake)){
+            System.out.println("eating itself");
+        }
         this.setIsOnWhichBorder("");
         repaint();
-        
     }
 
     @Override
