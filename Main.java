@@ -8,22 +8,19 @@ import sun.security.x509.IssuerAlternativeNameExtension;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         JFrame frame = new JFrame();
-        InitMenu initMenu = new InitMenu();
-        do{
+        Game game = new Game();
+        InitMenu initMenu = new InitMenu(game, frame);
+        frame.setSize(400, 400);
+        frame.setTitle("SnEk");
         frame.setContentPane(initMenu);
         frame.setVisible(true);
-        }while(!initMenu.getStartGame());
-            Game game = new Game();
-            frame.setSize(400, 400);
-            frame.setTitle("SnEk");
-            frame.setVisible(true);
-            //Game game = new Game();
-            frame.setContentPane(game);
-            game.setFocusable(true);
-            frame.addKeyListener(game);
-                while(game.isAlive){
-                game.play();
-                Thread.sleep(100);
-            }
+
+        //Game game = new Game();
+        game.setFocusable(true);
+        frame.addKeyListener(game); 
+        while(game.isAlive){
+            game.play();
+            Thread.sleep(100);
         }
     }
+}

@@ -1,4 +1,5 @@
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -19,11 +20,15 @@ public class InitMenu extends JPanel implements ActionListener {
     boolean startGame;
 
     JButton startButton = new JButton("New Game");
-
-    public InitMenu() {
+    JFrame frame = new JFrame();
+    Game game = new Game();
+    public InitMenu(Game game, JFrame frame) {
         add(startButton);
         startButton.addActionListener(this);
         startGame = false;
+        this.game = game;
+        this.frame = frame;
+
     }
     @Override
     protected void paintComponent(Graphics g){
@@ -37,6 +42,7 @@ public class InitMenu extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e){
-        setStartGame(true);   
+        frame.setContentPane(game);
+        frame.validate();
     }
 }
